@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>English Summary Saver – offscreen worker</title>
+  </head>
+  <body>
+    <!--
+      This page is never shown. It exists only so the extension has a document
+      context (with IndexedDB + the File System Access API) that can write files
+      using the directory handle chosen in the popup. The MV3 service worker
+      cannot reliably do this itself.
+    -->
+    <script type="module" src="offscreen.js"></script>
+  </body>
+</html>

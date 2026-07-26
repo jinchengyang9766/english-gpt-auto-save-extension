@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>English Summary Saver</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <h1>English Summary Saver</h1>
+      <p class="subtitle">
+        Saves a ChatGPT reply only when its first line is exactly
+        <code>English Summary</code>.
+      </p>
+    </header>
+
+    <section class="card">
+      <div class="row">
+        <span class="label">Save folder</span>
+        <span id="folderName" class="value">–</span>
+      </div>
+      <div class="row">
+        <span class="label">Permission</span>
+        <span id="permStatus" class="badge badge-unknown">unknown</span>
+      </div>
+      <div class="btn-row">
+        <button id="chooseFolder" class="primary">Choose Save Folder</button>
+        <button id="restorePerm">Restore Folder Permission</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <label class="toggle">
+        <input type="checkbox" id="autoSave" />
+        <span>Enable automatic saving</span>
+      </label>
+      <div class="btn-row">
+        <button id="testSave">Test Save</button>
+        <button id="retryLatest">Retry Latest Summary</button>
+      </div>
+      <p id="pendingNote" class="note hidden">
+        A detected summary is waiting to be saved.
+      </p>
+    </section>
+
+    <section class="card status">
+      <div class="row">
+        <span class="label">Last saved</span>
+        <span id="lastSavedTime" class="value">never</span>
+      </div>
+      <div class="row">
+        <span class="label">File</span>
+        <span id="lastSavedFile" class="value">–</span>
+      </div>
+      <div class="row">
+        <span class="label">Saved total</span>
+        <span id="savedCount" class="value">0</span>
+      </div>
+      <div id="errorBox" class="error hidden">
+        <strong>Last error</strong>
+        <span id="lastError"></span>
+      </div>
+    </section>
+
+    <p id="toast" class="toast hidden"></p>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

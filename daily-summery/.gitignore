@@ -1,0 +1,10 @@
+# Ignore everything in the repository root
+/*
+
+# Keep this gitignore file
+!/.gitignore
+
+# Only track the extension source code
+!/extension/
+!/extension/**
+!/README.md/

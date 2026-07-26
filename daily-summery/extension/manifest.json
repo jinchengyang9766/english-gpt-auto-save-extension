@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "English Summary Saver",
+  "version": "1.0.0",
+  "description": "Detects a ChatGPT assistant response whose first visible line is exactly 'English Summary' and saves it, unchanged, into local date folders.",
+  "permissions": [
+    "storage",
+    "offscreen"
+  ],
+  "host_permissions": [
+    "https://chatgpt.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "English Summary Saver"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
