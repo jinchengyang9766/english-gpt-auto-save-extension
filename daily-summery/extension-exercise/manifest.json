@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "English Summary Saver (Exercise)",
+  "version": "0.1.0",
+  "description": "A practice extension for saving English summaries.",
+  "content_scripts": [
+        {
+      "matches": ["https://chatgpt.com/*"],
+      "js": ["content.js"]
+        }
+    ]
+}
