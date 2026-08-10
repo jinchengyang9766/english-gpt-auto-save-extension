@@ -116,7 +116,33 @@ function scan() {
       text: element.innerText
   }).then((response) => {
       console.log("[ESS] reply from background:", response.ok, response.receivedLength);
+    }).catch((error) => {
+      console.log("[ESS] send FAILED:", error.message);
     });
+
+    // -----------------------------------------------------------------------
+    // Step 9B, Phase 1: catch the failure.
+    // -----------------------------------------------------------------------
+
+    // TODO 9B.2: add .catch(...) to the end of the chain above.
+    //            Do not create a new sendMessage and do not remove the .then.
+    //            The .catch hangs off the CLOSING bracket of the .then, exactly
+    //            the same way the .then hangs off sendMessage:
+    //
+    //              chrome.runtime.sendMessage({ ... })
+    //                .then((response) => { ... })
+    //                .catch((error) => {
+    //                  ...your log here...
+    //                });
+    //
+    //            The callback takes ONE argument - the error object. Log
+    //            something like "[ESS] send FAILED:" together with
+    //            error.message, which is the human-readable description.
+    //
+    //            Practical edit: line `    });` below the .then log becomes
+    //            `    }).catch((error) => {`, then your log line, then a new
+    //            `    });` to close the .catch.
+
 
     // -----------------------------------------------------------------------
     // Step 9A: listen for the background's reply.

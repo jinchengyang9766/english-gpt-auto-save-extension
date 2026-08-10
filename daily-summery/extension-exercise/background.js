@@ -47,11 +47,33 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   // Step 9A: reply to the sender.
   // -------------------------------------------------------------------------
 
-  console.log("[ESS-BG] replying");
-  sendResponse({
-    ok: true,
-    receivedLength: message.text.length
-  });
+  // -------------------------------------------------------------------------
+  // Step 9B, Phase 1: make the reply LATE, and watch it fail.
+  // -------------------------------------------------------------------------
+
+  // TODO 9B.1: wrap the reply below inside a setTimeout of 500 ms.
+  //            Do NOT change what is sent - the object keeps the same two
+  //            fields. Only WHEN it is sent changes.
+  //            The shape you are aiming for:
+  //
+  //              setTimeout(() => {
+  //                console.log("[ESS-BG] replying (late)");
+  //                sendResponse({ ...the same object... });
+  //              }, 500);
+  //
+  //            Change the log text to "(late)" so you can tell this version
+  //            apart from the Step 9A one in your console.
+  //
+  //            Do NOT add `return true`. Phase 1 is SUPPOSED to fail. You need
+  //            to see it fail before the fix in Phase 2 will mean anything.
+
+  setTimeout(() => {
+    console.log("[ESS-BG] replying (late)");
+    sendResponse({
+      ok: true,
+      receivedLength: message.text.length
+    });
+  }, 500);
 
   // TODO 9A.2: send a reply back to content.js.
   //            Call sendResponse - the third parameter of this listener - with
@@ -66,5 +88,5 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   //
   //            Optional but useful: log "[ESS-BG] replying" just before you
   //            call it, so you can see the order of events in the two consoles.
-  
+
 });
