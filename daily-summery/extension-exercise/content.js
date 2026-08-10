@@ -114,7 +114,39 @@ function scan() {
     chrome.runtime.sendMessage({
       type: "SUMMARY_DETECTED",
       text: element.innerText
-  });
+  }).then((response) => {
+      console.log("[ESS] reply from background:", response.ok, response.receivedLength);
+    });
+
+    // -----------------------------------------------------------------------
+    // Step 9A: listen for the background's reply.
+    //
+    // The sendMessage call just above already hands you back a Promise. Up to
+    // now you have been throwing it away. This step picks it up.
+    // -----------------------------------------------------------------------
+
+    // TODO 9A.1: attach .then(...) to the sendMessage call ABOVE.
+    //            Do not write a second sendMessage - modify the existing one.
+    //            The finished shape looks roughly like this:
+    //
+    //              chrome.runtime.sendMessage({
+    //                type: "SUMMARY_DETECTED",
+    //                text: element.innerText
+    //              }).then((response) => {
+    //                ...your log here...
+    //              });
+    //
+    //            Note the shape: the `.then` hangs off the CLOSING bracket of
+    //            the sendMessage call, and it takes ONE callback function.
+    //            That callback receives one argument - the object background
+    //            sent back - which you can name `response`.
+    //
+    //            Inside it, log something like "[ESS] reply from background:"
+    //            along with response.ok and response.receivedLength, so you can
+    //            see both fields arrive.
+    //
+    //            Use .then() only. No async, no await.
+
   });
 }
 

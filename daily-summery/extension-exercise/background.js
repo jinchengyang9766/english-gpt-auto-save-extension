@@ -42,4 +42,29 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
   console.log("[ESS-BG] SUMMARY_DETECTED received");
   console.log("[ESS-BG] text length:", message.text.length);
+
+  // -------------------------------------------------------------------------
+  // Step 9A: reply to the sender.
+  // -------------------------------------------------------------------------
+
+  console.log("[ESS-BG] replying");
+  sendResponse({
+    ok: true,
+    receivedLength: message.text.length
+  });
+
+  // TODO 9A.2: send a reply back to content.js.
+  //            Call sendResponse - the third parameter of this listener - with
+  //            ONE argument: a plain object containing two fields:
+  //              - ok: true
+  //              - receivedLength: how long the text was (message.text.length)
+  //
+  //            Call it RIGHT HERE, directly inside the listener. Do not wrap it
+  //            in setTimeout, do not make this callback async, and do not add
+  //            `return true` at the end. The reply must leave before this
+  //            function finishes.
+  //
+  //            Optional but useful: log "[ESS-BG] replying" just before you
+  //            call it, so you can see the order of events in the two consoles.
+  
 });
