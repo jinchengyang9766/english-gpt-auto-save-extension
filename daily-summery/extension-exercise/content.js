@@ -94,6 +94,27 @@ function scan() {
     reportedSummaries.add(element);
     console.log("[ESS] NEW summary detected");
 
+    // -----------------------------------------------------------------------
+    // Step 8: tell the background service worker.
+    //
+    // This is the ONLY place a message belongs. It sits after the Set check, so
+    // the deduplication you already built is what guarantees one message per
+    // summary. Put it anywhere earlier and you would send hundreds.
+    // -----------------------------------------------------------------------
+
+    // TODO 8.1: send one message to the background service worker.
+    //           Call chrome.runtime.sendMessage with a SINGLE argument: a plain
+    //           object, written with { }. Give that object two fields:
+    //             - type: the string "SUMMARY_DETECTED" - a label saying what
+    //               kind of message this is
+    //             - text: the summary's visible text. You already have the
+    //               element, so element.innerText gives you what the user sees.
+    //           Do not pass a callback, and ignore whatever it returns. This
+    //           step is one-way: send and forget.
+    chrome.runtime.sendMessage({
+      type: "SUMMARY_DETECTED",
+      text: element.innerText
+  });
   });
 }
 
