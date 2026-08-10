@@ -74,6 +74,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       receivedLength: message.text.length
     });
   }, 500);
+  return true;
 
   // TODO 9A.2: send a reply back to content.js.
   //            Call sendResponse - the third parameter of this listener - with
@@ -88,5 +89,21 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   //
   //            Optional but useful: log "[ESS-BG] replying" just before you
   //            call it, so you can see the order of events in the two consoles.
+
+  // -------------------------------------------------------------------------
+  // Step 9B, Phase 2: keep the channel open.
+  // -------------------------------------------------------------------------
+
+  // TODO 9B.3: write ONE line here that returns true.
+  //
+  //            Placement is the entire lesson, so check all three:
+  //              - inside THIS listener callback (the one opened on line 38)
+  //              - AFTER the setTimeout above, as the last statement
+  //              - NOT inside the setTimeout callback - that one has already
+  //                closed on the `}, 500);` line above
+  //
+  //            The indentation tells you if you got it right: your line should
+  //            sit at 2 spaces, level with `setTimeout` and `console.log`.
+  //            If it is at 4 spaces you are inside the timer - wrong place.
 
 });
