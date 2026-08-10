@@ -27,6 +27,27 @@ function firstNonEmptyLine(element) {
 }
 
 
+// ---------------------------------------------------------------------------
+// Step 7: remember what we have already reported (in-memory deduplication).
+//
+// The debounce reduced the number of scans, but every surviving scan still
+// looks at EVERY message on the page. An old summary from ten minutes ago gets
+// found again and again. We need a memory of "already reported".
+// ---------------------------------------------------------------------------
+
+// TODO 7.1: create the memory that holds the elements we have already
+//           reported. Use `new Set()`.
+//           It must live HERE, at the top level of the file - NOT inside
+//           scan(). A variable created inside a function is born and dies with
+//           each call, so a Set declared inside scan() would be empty again on
+//           every single scan and would remember nothing.
+//           Use `const`: the Set object itself is never replaced, only its
+//           contents change. (This is the opposite of pendingScan, whose whole
+//           value gets replaced each time.)
+//
+const reportedSummaries = new Set();
+
+
 /**
  * Looks at every assistant message currently on the page and logs whether it
  * is an English Summary. Takes no parameters and returns nothing.
@@ -46,6 +67,33 @@ function scan() {
     const isSummary = firstLine === REQUIRED_TITLE;
 
     console.log("[ESS]", index, "| first line:", firstLine, "| match:", isSummary);
+
+    // TODO 7.2: if this element is not a summary, there is nothing to report.
+    //           Stop working on it and move on to the next element.
+    //           Tip: inside a forEach callback, `return` only skips to the next
+    //           item - it does not stop the whole loop.
+    if (!isSummary) {
+      return;
+    }
+
+    // TODO 7.3: it IS a summary, but have we already reported it?
+    //           Ask your Set with .has(element). If the answer is true we have
+    //           seen this exact element before, so stop here and move on.
+    if (reportedSummaries.has(element)) {
+      return;
+    }
+
+
+    // TODO 7.4: this is genuinely new. Do two things, in this order:
+    //             1. add the element to your Set, so the check in 7.3 will
+    //                catch it on every future scan
+    //             2. log exactly: "[ESS] NEW summary detected"
+    //           Adding it FIRST matters: it is the act of adding that makes
+    //           this report happen only once.
+
+    reportedSummaries.add(element);
+    console.log("[ESS] NEW summary detected");
+
   });
 }
 
