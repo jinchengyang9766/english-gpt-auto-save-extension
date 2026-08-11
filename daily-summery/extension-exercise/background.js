@@ -36,7 +36,7 @@ console.log("[ESS-BG] service worker started");
 //           Do NOT call sendResponse and do NOT return anything. This step is
 //           one-way only.
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type !== "SUMMARY_DETECTED") {
+    if (message.type !== "SUMMARY_DETECTED") {
     return;
   }
 
@@ -67,14 +67,60 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   //            Do NOT add `return true`. Phase 1 is SUPPOSED to fail. You need
   //            to see it fail before the fix in Phase 2 will mean anything.
 
-  setTimeout(() => {
-    console.log("[ESS-BG] replying (late)");
-    sendResponse({
-      ok: true,
-      receivedLength: message.text.length
-    });
-  }, 500);
-  return true;
+  // -------------------------------------------------------------------------
+  // Step 9B demonstration - FINISHED, retired, must not run any more.
+  //
+  // Kept only as a record of what you proved: a reply sent after the listener
+  // returns is thrown away unless the listener returns true. The artificial
+  // timer has done its job and is now commented out, so that the real
+  // asynchronous work below is the only thing that replies.
+  //
+  //   setTimeout(() => {
+  //     console.log("[ESS-BG] replying (late)");
+  //     sendResponse({ ok: true, receivedLength: message.text.length });
+  //   }, 500);
+  // -------------------------------------------------------------------------
+
+
+  // -------------------------------------------------------------------------
+  // Step 10A: save the summary first, then reply.
+  // -------------------------------------------------------------------------
+
+  // TODO 10A.1: save this summary, and reply only once the save has finished.
+  //
+  //             Call chrome.storage.local.set(...) with ONE argument: an object
+  //             saying what to store. It is a "key -> value" object, and we
+  //             want exactly one key, named latestSummary:
+  //
+  //               chrome.storage.local.set({
+  //                 latestSummary: { ...the value... }
+  //               })
+  //
+  //             The value stored under latestSummary is itself a plain object
+  //             with two fields:
+  //               - text:    message.text
+  //               - savedAt: new Date().toISOString()
+  //
+  //             chrome.storage.local.set(...) returns a Promise, exactly like
+  //             sendMessage did. Chain .then() onto it. INSIDE that .then
+  //             callback, and nowhere else:
+  //               - log "[ESS-BG] saved to storage"
+  //               - call sendResponse with the SAME object as before:
+  //                   { ok: true, receivedLength: message.text.length }
+  //
+  //             Use .then(). No async, no await.
+  chrome.storage.local.set({
+    latestSummary: {
+      text: message.text,
+      savedAt: new Date().toISOString()
+    }
+  }).then(() => {
+    console.log("[ESS-BG] saved to storage");
+    sendResponse({ ok: true, receivedLength: message.text.length });
+  });
+
+  // Still required, for exactly the reason you proved in Phase 2: the save
+  // finishes AFTER this listener returns, so the channel must be told to wait.
 
   // TODO 9A.2: send a reply back to content.js.
   //            Call sendResponse - the third parameter of this listener - with
@@ -105,5 +151,5 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   //            The indentation tells you if you got it right: your line should
   //            sit at 2 spaces, level with `setTimeout` and `console.log`.
   //            If it is at 4 spaces you are inside the timer - wrong place.
-
+  return true;
 });

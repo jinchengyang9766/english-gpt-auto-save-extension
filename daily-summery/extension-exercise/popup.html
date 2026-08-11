@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>English Summary Saver</title>
+    <style>
+      /* Deliberately minimal. Step 10B is about JavaScript, not design. */
+      body { width: 320px; padding: 8px; font-family: sans-serif; font-size: 13px; }
+      h1 { font-size: 15px; margin: 0 0 8px 0; }
+      #status { color: #666; }
+      #saved-at { color: #666; font-size: 12px; }
+      #summary-text { white-space: pre-wrap; margin-top: 8px; }
+    </style>
+  </head>
+  <body>
+
+    <!-- The title. Plain text, never changed by JavaScript. -->
+    <h1>English Summary Saver</h1>
+
+    <!-- Status line. Starts as "Loading...". popup.js replaces this text with
+         an empty-state message, or clears it once a summary is shown. -->
+    <p id="status">Loading...</p>
+
+    <!-- When the summary was saved. Starts empty; popup.js fills it in. -->
+    <p id="saved-at"></p>
+
+    <!-- The summary text itself. Starts empty; popup.js fills it in. -->
+    <div id="summary-text"></div>
+
+    <!-- Loads the JavaScript. It must be a separate file: extensions are not
+         allowed to run JavaScript written inline inside HTML.
+         Placed at the END of <body> so that all the elements above already
+         exist by the time the script runs and looks for them. -->
+    <script src="popup.js"></script>
+
+  </body>
+</html>
